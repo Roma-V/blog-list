@@ -1,0 +1,1 @@
+# Blog list app - frontend and backend with create-react-app as the base of the project
