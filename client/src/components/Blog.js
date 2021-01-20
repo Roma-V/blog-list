@@ -140,7 +140,7 @@ export const BlogDetails = ({ blogId }) => {
   )
 }
 
-const NewBlog = ({ visibilityHandle }) => {
+export const NewBlog = ({ visibilityHandle }) => {
   const dispatch = useDispatch()
 
   // New blog form inputs
@@ -198,4 +198,9 @@ const NewBlog = ({ visibilityHandle }) => {
   )
 }
 
-export default Blogs
+// // eslint-disable-next-line import/no-anonymous-default-export
+// export default {
+//   Blogs,
+//   BlogDetails,
+//   NewBlog
+// }

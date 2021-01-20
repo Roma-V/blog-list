@@ -61,12 +61,12 @@ const App = () => {
   // Fetch blogs from API
   useEffect(() => {
     dispatch(initBlogs())
-  }, [])
+  }, [dispatch])
 
   // Fetch users from API
   useEffect(() => {
     dispatch(initUsers())
-  }, [])
+  }, [dispatch])
 
   // Store state
   const blogsLoaded = useSelector(state => state.blogs.length > 0)
@@ -82,7 +82,7 @@ const App = () => {
       const userLogin = JSON.parse(loggedUserJSON)
       dispatch(setUser(userLogin))
     }
-  }, [])
+  }, [dispatch])
 
   /*
    * 3. Rendering
