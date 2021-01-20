@@ -30,7 +30,6 @@ const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog.js')
 const User = require('../models/user.js')
-const logger = require('../utils/logger.js')
 
 const userSchema = { username: 1, name: 1 }
 

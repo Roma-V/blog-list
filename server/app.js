@@ -75,9 +75,9 @@ app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(middleware.tokenExtractor)
 
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '/front_build')));
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  res.sendFile(path.join(__dirname, '/front_build', 'index.html'));
 });
 
 app.use('/api/login', loginRouter)
@@ -86,7 +86,7 @@ app.use('/api/users', usersRouter)
 
 
 if (process.env.NODE_ENV === 'test') {
-  const testingRouter = require('./controllers/test.js')
+  const testingRouter = require('./controllers/test_route.js')
   app.use('/api/testing', testingRouter)
 }
 
