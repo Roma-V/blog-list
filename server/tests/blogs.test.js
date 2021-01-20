@@ -32,7 +32,7 @@ const listHelper = require('../utils/list_helper.js')
 /*
  * Variables
  */
-const emptyList = new Array()
+const emptyList = []
 const singleEntryList = emptyList.concat({
   title: 'First post',
   author: 'Roma',

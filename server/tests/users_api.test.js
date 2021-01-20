@@ -111,7 +111,7 @@ describe('When new data is added,', () => {
   })
 
   test('short username or password are rejected', async () => {
-    for (const invalidUser of testHelper.initialUsers) {
+    for (const invalidUser of testHelper.invalidUsers) {
       await api
         .post('/api/users')
         .send(invalidUser)
@@ -119,7 +119,8 @@ describe('When new data is added,', () => {
 
       const users = await testHelper.usersInDb()
       expect(users).toHaveLength(testHelper.initialUsers.length)
-      expect(users[0].name).toBe(testHelper.initialUsers[0].name)
+      expect(users.map(user => user.name)).toContain(testHelper.initialUsers[0].name)
+      expect(users.map(user => user.name)).not.toContain(invalidUser.name)
     }
   })
 })

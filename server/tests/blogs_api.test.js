@@ -130,13 +130,13 @@ describe('When a specific record is requested,', () => {
     }
   })
 
-  test('if id is valid but non-existant, status 404 is returned ', async () => {
+  test('if id is valid but non-existant, status 404 is returned', async () => {
     await api
       .get(`/api/blogs/${testHelper.nonExistingId}`)
       .expect(404)
   })
 
-  test('if id is not valid, status 400 is returned ', async () => {
+  test('if id is not valid, status 400 is returned', async () => {
     await api
       .get('/api/blogs/5fbd5c89f7dd00102b17b20')
       .expect(400)
