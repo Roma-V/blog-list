@@ -14,8 +14,7 @@ import {
   TableHead,
   TableCell,
   TableRow,
-  Paper,
-  Button
+  Paper
 } from '@material-ui/core'
 
 export const Users = () => {

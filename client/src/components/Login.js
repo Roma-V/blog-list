@@ -3,7 +3,6 @@
  * @author Roman Vasilyev
  */
 
-import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { login } from '../reducers/loginReducer.js'
