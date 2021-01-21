@@ -13,6 +13,7 @@ defaults:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    environment: testing-action
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -20,19 +21,22 @@ jobs:
           node-version: '14.x'
       - name: install npm for backend
         working-directory: server
-        run: npm install
-      - name: install npm for frontend
-        working-directory: client
-        run: npm install
+        run: npm ci
+      # - name: install npm for frontend
+      #   working-directory: client
+      #   run: npm ci
       - name: backend lint
         working-directory: server
         run: npm run eslint
-      - name: frontend lint
-        working-directory: client
-        run: npm run eslint
-      - name: build frontend
-        working-directory: client
-        run: npm run build
+      # - name: frontend lint
+      #   working-directory: client
+      #   run: npm run eslint
+      # - name: build frontend
+      #   working-directory: client
+      #   run: npm run build
       - name: test backend
         working-directory: server
         run: npm test
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          LOGIN_TOKENIZER: ${{ secrets.LOGIN_TOKENIZER }}
