@@ -34,14 +34,12 @@ jobs:
       # - name: build frontend
       #   working-directory: client
       #   run: npm run build
-      - name: create env file
-        run: |
-          touch .env
-          echo TEST_MONGODB_URI =${{ secrets.TEST_MONGODB_URI }} >> .env
+      - name: log env uri
+        run: echo ${{ secrets.TEST_MONGODB_URI }}
       # - name: run backend
       #   working-directory: server
       #   run: npm run start:test
       #   timeout-minutes: 0.5
       - name: test backend
         working-directory: server
-        run: npm test
+        run: TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} npm test
