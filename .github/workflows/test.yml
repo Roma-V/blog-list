@@ -20,17 +20,17 @@ jobs:
           node-version: '14.x'
       - name: install npm for backend
         working-directory: server
-        run: npm ci
+        run: npm install
       - name: install npm for frontend
         working-directory: client
-        run: npm ci
+        run: npm install
       - name: backend lint
         working-directory: server
         run: npm run eslint
       - name: frontend lint
         working-directory: client
         run: npm run eslint
-      - name: builf frontend
+      - name: build frontend
         working-directory: client
         run: npm run build
       - name: test backend
