@@ -52,9 +52,12 @@ const tokenFor = async (user) => {
  * Setup a function to run before each test
  */
 beforeEach(async () => {
-  await api.post('/api/testing/reset')
-  // await User.deleteMany({})
-  // await Blog.deleteMany({})
+  if (process.env.GITHUB) {
+    await api.post('/api/testing/reset')
+  } else  {
+    await User.deleteMany({})
+    await Blog.deleteMany({})
+  }
 
   for (const user of testHelper.initialUsers) {
     // Create users

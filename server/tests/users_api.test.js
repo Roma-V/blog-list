@@ -40,8 +40,11 @@ const api = supertest(app)
  * Setup a function to run before each test
  */
 beforeEach(async () => {
-  await api.post('/api/testing/reset')
-  // await User.deleteMany({})
+  if (process.env.GITHUB) {
+    await api.post('/api/testing/reset')
+  } else  {
+    await User.deleteMany({})
+  }
 
   const users = testHelper.initialUsers.map(user => new User(user))
   const promises = users.map(user => user.save())
@@ -108,7 +111,9 @@ describe('When new data is added,', () => {
     const users = await testHelper.usersInDb()
     expect(users).toHaveLength(testHelper.initialUsers.length)
 
-    expect(users[0].name).toBe(testHelper.initialUsers[0].name)
+    for (const user of testHelper.initialUsers) {
+      expect(users.map(e => e.name)).toContain(user.name)
+    }
   })
 
   test('short username or password are rejected', async () => {

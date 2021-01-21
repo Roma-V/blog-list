@@ -22,21 +22,27 @@ jobs:
       - name: install npm for backend
         working-directory: server
         run: npm ci
-      # - name: install npm for frontend
-      #   working-directory: client
-      #   run: npm ci
+      - name: install npm for frontend
+        working-directory: client
+        run: npm ci
       - name: backend lint
         working-directory: server
         run: npm run eslint
-      # - name: frontend lint
-      #   working-directory: client
-      #   run: npm run eslint
-      # - name: build frontend
-      #   working-directory: client
-      #   run: npm run build
+      - name: frontend lint
+        working-directory: client
+        run: npm run eslint
+      - name: build frontend
+        working-directory: client
+        run: npm run build
       - name: test backend
         working-directory: server
         run: npm test
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           LOGIN_TOKENIZER: ${{ secrets.LOGIN_TOKENIZER }}
+          GITHUB: true
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deployment job placeholder"
