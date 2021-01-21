@@ -40,8 +40,11 @@ const api = supertest(app)
  * Setup a function to run before each test
  */
 beforeEach(async () => {
-  await api.post('/api/testing/reset')
-  // await User.deleteMany({})
+  if (process.env.GITHUB) {
+    await api.post('/api/testing/reset')
+  } else  {
+    await User.deleteMany({})
+  }
 
   const users = testHelper.initialUsers.map(user => new User(user))
   const promises = users.map(user => user.save())
