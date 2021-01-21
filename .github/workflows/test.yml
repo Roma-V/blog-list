@@ -42,4 +42,6 @@ jobs:
       #   timeout-minutes: 0.5
       - name: test backend
         working-directory: server
-        run: TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} npm test
+        env:
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+        run: npm test
