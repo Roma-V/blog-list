@@ -111,7 +111,9 @@ describe('When new data is added,', () => {
     const users = await testHelper.usersInDb()
     expect(users).toHaveLength(testHelper.initialUsers.length)
 
-    expect(users[0].name).toBe(testHelper.initialUsers[0].name)
+    for (const user of testHelper.initialUsers) {
+      expect(users.map(e => e.name)).toContain(user.name)
+    }
   })
 
   test('short username or password are rejected', async () => {
