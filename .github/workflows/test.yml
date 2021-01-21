@@ -39,15 +39,18 @@ jobs:
         run: |
           touch .env
           echo TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} >> .env
-      # - name: Delete gitignore
-      #   working-directory: server
-      #   run: |
-      #     rm .gitignore
-      # - name: Push .env to directory
-      #   working-directory: server
-      #   run: |
-      #     git add .
-      #     git commit -m "environment variables"
+      - name: List files
+        working-directory: server
+        run: ls -a -l
+      - name: Delete gitignore
+        working-directory: server
+        run: |
+          rm .gitignore
+      - name: Push .env to directory
+        working-directory: server
+        run: |
+          git add .
+          git commit -m "environment variables"
       - name: test backend
         working-directory: server
         run: npm test
