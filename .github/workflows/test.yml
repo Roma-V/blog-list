@@ -34,11 +34,6 @@ jobs:
       # - name: build frontend
       #   working-directory: client
       #   run: npm run build
-      # - name: Create .env file
-      #   working-directory: server
-      #   run: |
-      #     touch .env
-      #     echo TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} >> .env
       - name: test backend
         working-directory: server
         run: npm test
