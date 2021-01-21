@@ -34,14 +34,20 @@ jobs:
       # - name: build frontend
       #   working-directory: client
       #   run: npm run build
-      - name: log env uri
-        run: echo ${{ secrets.TEST_MONGODB_URI }}
-      # - name: run backend
+      - name: Create .env file
+        working-directory: server
+        run: |
+          touch .env
+          echo TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} >> .env
+      # - name: Delete gitignore
       #   working-directory: server
-      #   run: npm run start:test
-      #   timeout-minutes: 0.5
+      #   run: |
+      #     rm .gitignore
+      # - name: Push .env to directory
+      #   working-directory: server
+      #   run: |
+      #     git add .
+      #     git commit -m "environment variables"
       - name: test backend
         working-directory: server
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
         run: npm test
