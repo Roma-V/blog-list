@@ -63,6 +63,11 @@ jobs:
       - name: build frontend
         working-directory: client
         run: npm run build
+      - name: delete front build from ignore
+        working-directory: server
+      - run: |
+        echo "Editing .gitignore file"
+        echo "node_modules" > .gitignore
       - uses: akhileshns/heroku-deploy@v3.8.9
         if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#deploy') }}
         with:
@@ -86,3 +91,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
           DEFAULT_BUMP: patch
+
+          node_modules
+front_build
+
+.env
