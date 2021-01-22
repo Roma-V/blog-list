@@ -1,4 +1,7 @@
-name: test-pipeline
+name: test-then-deploy-pipeline
+# Linting and testing is automatic
+# Daployment is triggered with "#deploy" in commit message 
+# Version bumping is triggered with "#newvversion" in commit message 
 
 on: 
   push:
@@ -41,8 +44,46 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           LOGIN_TOKENIZER: ${{ secrets.LOGIN_TOKENIZER }}
           GITHUB: true
+
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
+    environment: deploy
     steps:
-      - run: echo "Deployment job placeholder"
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: install npm for backend
+        working-directory: server
+        run: npm ci
+      - name: install npm for frontend
+        working-directory: client
+        run: npm ci
+      - name: build frontend
+        working-directory: client
+        run: npm run build
+      - uses: akhileshns/heroku-deploy@v3.8.9
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#deploy') }}
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "blog-list-rv"
+          heroku_email: "roman.m.vasilyev@gmail.com"
+          appdir: "server"
+          procfile: "web: npm start"
+          healthcheck: "https://blog-list-rv.herokuapp.com/"
+          rollbackonhealthcheckfailed: true
+
+  new-version:
+    needs: [build-and-test, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#newversion') }}
+      - name: Bump version and push a tag
+        uses: anothrNick/github-tag-action@1.26.0
+        if: ${{ success() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          DEFAULT_BUMP: patch
