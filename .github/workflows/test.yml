@@ -79,10 +79,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#newversion') }}
       - name: Bump version and push a tag
         uses: anothrNick/github-tag-action@1.26.0
-        if: ${{ success() }}
+        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#newversion') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
