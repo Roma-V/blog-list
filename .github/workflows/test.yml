@@ -47,6 +47,7 @@ jobs:
 
   deploy:
     needs: build-and-test
+    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#deploy') }}
     runs-on: ubuntu-latest
     environment: deploy
     steps:
@@ -69,7 +70,6 @@ jobs:
           echo "Editing .gitignore file"
           echo "node_modules" > .gitignore
       - uses: akhileshns/heroku-deploy@v3.8.9
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#deploy') }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "blog-list-rv"
@@ -81,12 +81,12 @@ jobs:
 
   new-version:
     needs: [build-and-test, deploy]
+    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#newversion') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Bump version and push a tag
         uses: anothrNick/github-tag-action@1.26.0
-        if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message), '#newversion') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
