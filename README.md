@@ -27,5 +27,5 @@ The app provides few views for login, looking through the list of posts, editing
 ## Workflows
 Github actions are used to test the code upon pushes and pull requests to the "master" branch.\
 The following tags in commit coments trigger additional actions:
-- /#deploy - build the frontend and deploy to heroku
-- /#newversion - bumps the patch version and adds a corresponding tag to the repo
+- #deploy - build the frontend and deploy to heroku
+- #newversion - bumps the patch version and adds a corresponding tag to the repo
