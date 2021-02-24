@@ -23,6 +23,9 @@ import {
 } from '@material-ui/core'
 
 export const Blogs = () => {
+  // User login
+  const loggedUser = useSelector(state => state.login)
+
   // Store
   const blogs = useSelector(state => state.blogs)
 
@@ -32,12 +35,15 @@ export const Blogs = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <Togglable
-        buttonLabel1='new blog'
-        buttonLabel2='cancel'
-        ref={newBlogFormRef}>
-        <NewBlog visibilityHandle={() => newBlogFormRef.current.toggleVisibility()}/>
-      </Togglable>
+      {
+        loggedUser && 
+        <Togglable
+          buttonLabel1='new blog'
+          buttonLabel2='cancel'
+          ref={newBlogFormRef}>
+          <NewBlog visibilityHandle={() => newBlogFormRef.current.toggleVisibility()}/>
+        </Togglable>
+      }
       <div>The blog posts in database:</div>
       <TableContainer component={Paper}>
         <Table>
@@ -57,6 +63,9 @@ export const Blogs = () => {
 
 export const BlogDetails = ({ blogId }) => {
   const dispatch = useDispatch()
+
+  // User login
+  const loggedUser = useSelector(state => state.login)
 
   const blog = useSelector(state => state.blogs.find(blog => blog.id === blogId))
 
@@ -95,13 +104,13 @@ export const BlogDetails = ({ blogId }) => {
                 {blog.likes}
               </TableCell>
               <TableCell align='right'>
-                <Button
+                {loggedUser && <Button
                   variant="contained"
                   color="primary"
                   onClick={() => dispatch(likeBlog(blog))}
                 >
                   like
-                </Button>
+                </Button>}
               </TableCell>
             </TableRow>
             <TableRow key='author'>
@@ -113,18 +122,18 @@ export const BlogDetails = ({ blogId }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button
+      {loggedUser && <Button
         variant="contained"
         color="secondary"
         onClick={deleteHandler}
       >
         remove
-      </Button>
+      </Button>}
       <h3>Comments</h3>
-      <form onSubmit={commentHandler}>
+      {loggedUser && <form onSubmit={commentHandler}>
         <TextField label="comment" />
         <Button variant="contained" color="primary" type="submit">add comment</Button>
-      </form>
+      </form>}
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
