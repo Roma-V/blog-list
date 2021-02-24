@@ -94,15 +94,26 @@ const App = () => {
           <IconButton edge="start" color="inherit" aria-label="menu">
           </IconButton>
           <Button color="inherit" component={NavLink} to='/' >Blogs</Button>
-          <Button color="inherit" component={NavLink} to='/users' >Users</Button>
-          {
-            loggedUser === null
-              ? ''
-              : <Typography>
-                {loggedUser.username} logged in
-                <Button edge="end" color="inherit" type="submit" onClick={() => dispatch(logout())}>Logout</Button>
-              </Typography>
+          { 
+            loggedUser 
+            && <Button color="inherit" component={NavLink} to='/users' >Users</Button>
           }
+          <Typography>
+            {
+              loggedUser === null
+                ? <Button color="inherit" component={NavLink} to='/login'>Login</Button>
+                : <>
+                    {loggedUser.username} logged in
+                    <Button 
+                      edge="end" 
+                      color="inherit" 
+                      type="submit" 
+                      onClick={() => dispatch(logout())}
+                    >Logout</Button>
+                  </>
+            }
+            
+          </Typography>
         </Toolbar>
       </AppBar>
       <Container>
@@ -124,9 +135,8 @@ const App = () => {
           </Route>
           <Route path='/blogs/:id'>
             {
-              loggedUser && blogsLoaded
-                ? <BlogDetails blogId={blogPath ? blogPath.params.id: null} />
-                : <Redirect to="/" />
+              blogsLoaded 
+              && <BlogDetails blogId={blogPath ? blogPath.params.id: null} />
             }
           </Route>
           <Route path='/users'>
@@ -136,13 +146,7 @@ const App = () => {
                 : <Redirect to="/" />
             }
           </Route>
-          <Route path='/'>
-            {
-              loggedUser
-                ? <Blogs />
-                : <Redirect to="/login" />
-            }
-          </Route>
+          <Route path='/' component={Blogs} />
         </Switch>
       </Container>
     </ThemeProvider>
