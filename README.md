@@ -18,7 +18,7 @@ The "tests" subfolder contains unit tests that ensure proper functionality as we
 
 ## Frontend
 [client](client/)\
-The app provides few views for login, looking through the list of posts, editing them, see who's signed up. The following stack is used:
+The app provides few views for login, looking through the list of posts, editing them, see who's signed up. Functionality depends on whether a user is logged in or not. The following stack is used:
 - React
 - React Router
 - Redux
